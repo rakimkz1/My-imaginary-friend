@@ -39,7 +39,7 @@ namespace Scripts
             ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
             string aiResponse = response.choices[0].message.content;
 
-            Debug.Log($"Ответ: {aiResponse}");
+            //Debug.Log($"Ответ: {aiResponse}");
         }
     }
 }
