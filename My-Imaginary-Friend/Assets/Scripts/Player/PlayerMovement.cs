@@ -30,11 +30,12 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 diraction = (transform.right * x + transform.forward * y) * Speed * Time.deltaTime;
         _chr.Move(diraction);
+        Debug.Log(_gravityVelocity);
 
         if(Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
-            float gx = Mathf.Sqrt(jumpHeight * -2f * gravity.x), gy = Mathf.Sqrt(jumpHeight * -2f * gravity.y), gz = Mathf.Sqrt(jumpHeight * -2f * gravity.z);
-            _gravityVelocity.y = gy;
+            float gx = Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravity.x)), gy = Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravity.y)), gz = Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravity.z));
+            _gravityVelocity.y = gy * gravity.normalized.y * -1f;
         }
     }
 
@@ -43,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         _isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, checkLayer);
         if (_isGrounded && gravity.normalized == _gravityVelocity.normalized)
         {
-            _gravityVelocity = Vector3.down * 3f;
+            _gravityVelocity = gravity.normalized * 3f;
         }
         else
         {
