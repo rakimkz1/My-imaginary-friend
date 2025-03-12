@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 diraction = (transform.right * x + transform.forward * y) * Speed * Time.deltaTime;
         _chr.Move(diraction);
-        Debug.Log(_gravityVelocity);
 
         if(Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
