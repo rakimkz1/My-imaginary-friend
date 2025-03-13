@@ -651,7 +651,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 226e0580a1f69e042be7f9c496502063, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2284,8 +2284,8 @@ GameObject:
   - component: {fileID: 1467432249}
   - component: {fileID: 1467432248}
   - component: {fileID: 1467432247}
-  - component: {fileID: 1467432250}
   - component: {fileID: 1467432251}
+  - component: {fileID: 1467432250}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2376,9 +2376,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1467432246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Script: {fileID: 11500000, guid: 17a0c8442a124f44cbc2ecb2965d2f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sensitivityDepth: 1
+  _sensitivityNormals: 1
+  _edgesOnly: 1
+  _edgesOnlyBgColor: {r: 0.86415094, g: 0.1288073, b: 0.1288073, a: 1}
+  _edgesColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1467432251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,9 +2393,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1467432246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a9db68a857b0144869811e99460fc7, type: 3}
+  m_Script: {fileID: 11500000, guid: dc2da4ea31197c448bd2faf5a5c261ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shader: {fileID: 4800000, guid: 6e1de10b70b882a4fbf4196f575057c1, type: 3}
+  _noiseTexture: {fileID: 2800000, guid: 1eaeeb34452d62c45b25945f0168fa20, type: 3}
+  _rampTexture: {fileID: 2800000, guid: c0cedc4074eb9a34f872f7743ed1a3a0, type: 3}
 --- !u!1 &1507143143
 GameObject:
   m_ObjectHideFlags: 0
