@@ -26,19 +26,7 @@ namespace Scripts
                 {
                     TestingAI();
                 }
-<<<<<<< HEAD
-            };
-
-
-            string jsonResponse = await AIRequest_Qween.SendRequestAsync(JsonUtility.ToJson(request));
-            Debug.Log($"jsonResponse: {jsonResponse}");
-            ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
-            string aiResponse = response.choices[0].message.content;
-
-            //Debug.Log($"Ответ: {aiResponse}");
-=======
             }
->>>>>>> Prototype(Duman)
         }
 
         private async void TestingAI ()
