@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-
+ 
 namespace Scripts
 {
     public class AI : MonoBehaviour
     {
         
 
-        public event Action AIResponsed;        // Ивент будет срабатывать когда от ИИ получаем нужные респонсы или когда игрок сказал то что нужно.
-        public event Action ScriptEvent;        // Ивент бедет срабатывать от внешних скриптов, на которые в этом классе нужно подписываться что бы менять промпт для нужных респонсов
+        public event Action AIResponsed;        // Г€ГўГҐГ­ГІ ГЎГіГ¤ГҐГІ Г±Г°Г ГЎГ ГІГ»ГўГ ГІГј ГЄГ®ГЈГ¤Г  Г®ГІ Г€Г€ ГЇГ®Г«ГіГ·Г ГҐГ¬ Г­ГіГ¦Г­Г»ГҐ Г°ГҐГ±ГЇГ®Г­Г±Г» ГЁГ«ГЁ ГЄГ®ГЈГ¤Г  ГЁГЈГ°Г®ГЄ Г±ГЄГ Г§Г Г« ГІГ® Г·ГІГ® Г­ГіГ¦Г­Г®.
+        public event Action ScriptEvent;        // Г€ГўГҐГ­ГІ ГЎГҐГ¤ГҐГІ Г±Г°Г ГЎГ ГІГ»ГўГ ГІГј Г®ГІ ГўГ­ГҐГёГ­ГЁГµ Г±ГЄГ°ГЁГЇГІГ®Гў, Г­Г  ГЄГ®ГІГ®Г°Г»ГҐ Гў ГЅГІГ®Г¬ ГЄГ«Г Г±Г±ГҐ Г­ГіГ¦Г­Г® ГЇГ®Г¤ГЇГЁГ±Г»ГўГ ГІГјГ±Гї Г·ГІГ® ГЎГ» Г¬ГҐГ­ГїГІГј ГЇГ°Г®Г¬ГЇГІ Г¤Г«Гї Г­ГіГ¦Г­Г»Гµ Г°ГҐГ±ГЇГ®Г­Г±Г®Гў
 
 
-        private bool requestSend = false;                                   // Для того что бы ждать пока вернется ответ от ИИ
-        private AIPromptBuilder promptBuilder = new AIPromptBuilder();      // Тут хранится все что связано с промптами для ИИ. Там же происходит сериализация в джейсон
-        private Func<string, string> AIJsonHandler = null;                  // Обработчик ответа ИИ. Получаемый джейсон каждый раз разный, по этому каждый раз используем нужный обработчик
+        private bool requestSend = false;                                   // Г„Г«Гї ГІГ®ГЈГ® Г·ГІГ® ГЎГ» Г¦Г¤Г ГІГј ГЇГ®ГЄГ  ГўГҐГ°Г­ГҐГІГ±Гї Г®ГІГўГҐГІ Г®ГІ Г€Г€
+        private AIPromptBuilder promptBuilder = new AIPromptBuilder();      // Г’ГіГІ ГµГ°Г Г­ГЁГІГ±Гї ГўГ±ГҐ Г·ГІГ® Г±ГўГїГ§Г Г­Г® Г± ГЇГ°Г®Г¬ГЇГІГ Г¬ГЁ Г¤Г«Гї Г€Г€. Г’Г Г¬ Г¦ГҐ ГЇГ°Г®ГЁГ±ГµГ®Г¤ГЁГІ Г±ГҐГ°ГЁГ Г«ГЁГ§Г Г¶ГЁГї Гў Г¤Г¦ГҐГ©Г±Г®Г­
+        private Func<string, string> AIJsonHandler = null;                  // ГЋГЎГ°Г ГЎГ®ГІГ·ГЁГЄ Г®ГІГўГҐГІГ  Г€Г€. ГЏГ®Г«ГіГ·Г ГҐГ¬Г»Г© Г¤Г¦ГҐГ©Г±Г®Г­ ГЄГ Г¦Г¤Г»Г© Г°Г Г§ Г°Г Г§Г­Г»Г©, ГЇГ® ГЅГІГ®Г¬Гі ГЄГ Г¦Г¤Г»Г© Г°Г Г§ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬ Г­ГіГ¦Г­Г»Г© Г®ГЎГ°Г ГЎГ®ГІГ·ГЁГЄ
 
 
         
@@ -25,11 +25,11 @@ namespace Scripts
 
         private void Awake()
         {
-            StartingPoint();            // то что дает начало сюжету
-            AIResponsed += AISub;       // то что двигает сюжет дальше
+            StartingPoint();            // ГІГ® Г·ГІГ® Г¤Г ГҐГІ Г­Г Г·Г Г«Г® Г±ГѕГ¦ГҐГІГі
+            AIResponsed += AISub;       // ГІГ® Г·ГІГ® Г¤ГўГЁГЈГ ГҐГІ Г±ГѕГ¦ГҐГІ Г¤Г Г«ГјГёГҐ
         }
 
-        public async Task<string> Request(string _request)                          // Входные данные слова игрока, выходные данные, слова ИИ. Внутри обрабатывается память и настраивается промпт для дальнейшего использований в сюжете
+        public async Task<string> Request(string _request)                          // Г‚ГµГ®Г¤Г­Г»ГҐ Г¤Г Г­Г­Г»ГҐ Г±Г«Г®ГўГ  ГЁГЈГ°Г®ГЄГ , ГўГ»ГµГ®Г¤Г­Г»ГҐ Г¤Г Г­Г­Г»ГҐ, Г±Г«Г®ГўГ  Г€Г€. Г‚Г­ГіГІГ°ГЁ Г®ГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГІГ±Гї ГЇГ Г¬ГїГІГј ГЁ Г­Г Г±ГІГ°Г ГЁГўГ ГҐГІГ±Гї ГЇГ°Г®Г¬ГЇГІ Г¤Г«Гї Г¤Г Г«ГјГ­ГҐГ©ГёГҐГЈГ® ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГ© Гў Г±ГѕГ¦ГҐГІГҐ
         {
             if (requestSend == true || _request == null || _request.Length == 0)    // Check
                 return null;
@@ -50,11 +50,11 @@ namespace Scripts
 
             requestSend = false;
 
-            //Debug.Log($"Ответ: {aIAnswer}");
+            //Debug.Log($"ГЋГІГўГҐГІ: {aIAnswer}");
             return aIAnswer;
         }
 
-        private void StartingPoint()     // Настраивает параметры промпта для сюжета. Первая итерация.
+        private void StartingPoint()     // ГЌГ Г±ГІГ°Г ГЁГўГ ГҐГІ ГЇГ Г°Г Г¬ГҐГІГ°Г» ГЇГ°Г®Г¬ГЇГІГ  Г¤Г«Гї Г±ГѕГ¦ГҐГІГ . ГЏГҐГ°ГўГ Гї ГЁГІГҐГ°Г Г¶ГЁГї.
         {
             
             AIJsonHandler += FirstMeetFromJson;
@@ -62,24 +62,24 @@ namespace Scripts
 
         
 
-        private string DefaultFromJson(string json)                         // Обрабатывает пришедший json от ИИ деволтным способом
+        private string DefaultFromJson(string json)                         // ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГІ ГЇГ°ГЁГёГҐГ¤ГёГЁГ© json Г®ГІ Г€Г€ Г¤ГҐГўГ®Г«ГІГ­Г»Г¬ Г±ГЇГ®Г±Г®ГЎГ®Г¬
         {
             DefaultJson _default = JsonUtility.FromJson<DefaultJson>(json);
 
             return _default.content;
         }
 
-        private string FirstMeetFromJson(string json)                       // Обрабатывает пришедший json от ИИ для первой итераций
+        private string FirstMeetFromJson(string json)                       // ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГІ ГЇГ°ГЁГёГҐГ¤ГёГЁГ© json Г®ГІ Г€Г€ Г¤Г«Гї ГЇГҐГ°ГўГ®Г© ГЁГІГҐГ°Г Г¶ГЁГ©
         {
             FirstMeetJson first = JsonUtility.FromJson<FirstMeetJson>(json);
 
             if (first.player_name == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **`player_name`**.";
+                promptBuilder.additionalInformations += "\r\nГЋГЃГџГ‡ГЂГ’Г…Г‹ГњГЌГЋ Г§Г ГЇГ®Г«Г­ГЁ ГЅГІГ® ГЇГ®Г«ГҐ **`player_name`**.";
             }
             if (first.player_goal == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **`player_goal`**.";
+                promptBuilder.additionalInformations += "\r\nГЋГЃГџГ‡ГЂГ’Г…Г‹ГњГЌГЋ Г§Г ГЇГ®Г«Г­ГЁ ГЅГІГ® ГЇГ®Г«ГҐ **`player_goal`**.";
             }
 
             if (first.player_name != "unknown" && first.player_goal != "unknown")
