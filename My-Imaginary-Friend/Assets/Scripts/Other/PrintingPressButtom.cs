@@ -6,8 +6,11 @@ using UnityEngine;
 public class PrintingPressButtom : MonoBehaviour
 {
     public KeyCode key;
+
+    [SerializeField] PrintingMachine machine;
     [SerializeField] private float _time;
     [SerializeField] private float _endPosition;
+
     private float _startPosition;
 
     private void Start()
@@ -16,11 +19,12 @@ public class PrintingPressButtom : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(key))
+        if (Input.GetKeyDown(key) && machine.isActive)
         {
             transform.DOMoveY(_endPosition + transform.position.y, _time);
+            machine.InputSymbol();
         }
-        if (Input.GetKeyUp(key))
+        if (Input.GetKeyUp(key) && machine.isActive)
         {
             transform.DOMoveY(_startPosition, _time);
         }

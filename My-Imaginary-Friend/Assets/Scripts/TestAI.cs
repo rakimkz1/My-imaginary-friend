@@ -2,45 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using Scripts.AI_Qween;
+using TMPro;
 
 namespace Scripts
 {
     public class TestAI : MonoBehaviour
     {
+        public bool isActive = true;
+        public TextMeshProUGUI inputField;
+        public TextMeshProUGUI outputField;
+        public AI aI;
 
-        void Start()
+        private void Start()
         {
-            OneRequest();
+            
         }
 
-        private async Task OneRequest()
+        private void Update()
         {
-            RequestData request = new RequestData()
+            if (isActive)
             {
-                messages = new List<Message>
+                if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    new Message()
-                    {
-                        role = "system",
-                        content = "Ты грубиян. Используешь матерные слова очень часто. Хочешь оскорбить пользователя, задеть за живое. Ты будешь грубияном до тех пор пока пользователь не переубедит тебя стать вежливым"
-                    },
-                    new Message()
-                    {
-                        role = "user",
-                        content = "Здравия желаю, как ваши дела?"
-                    }
+                    TestingAI();
                 }
-            };
-
-
-            string jsonResponse = await AIRequest_Qween.SendRequestAsync(JsonUtility.ToJson(request));
-            Debug.Log($"jsonResponse: {jsonResponse}");
-            ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
-            string aiResponse = response.choices[0].message.content;
-
-            //Debug.Log($"Ответ: {aiResponse}");
+            }
         }
+
+        private async void TestingAI ()
+        {
+            outputField.text = await aI.Request(inputField.text);
+        }
+
     }
 }
 
