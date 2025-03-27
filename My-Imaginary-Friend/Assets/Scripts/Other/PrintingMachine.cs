@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.Rendering;
 
 namespace Scripts
@@ -17,18 +19,16 @@ namespace Scripts
         [SerializeField] Transform point;
         [SerializeField] Vector3 cameraPosition;
         [SerializeField] Vector3 camRotation;
+        [SerializeField] GameObject textUI;
 
         private string answer="";
-
-        async void Start()
-        {
-            await ai.Request("Hello");
-        }
-
+        private Vector3 _textInitialPosition;
+       
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Backspace) && isActive && text.Length > 0) text = text.Substring(0, text.Length - 1);
             if (Input.GetKeyDown(KeyCode.Return) && isActive && text.Length > 0) SendMessage();
+            textUI.GetComponent<TextMeshProUGUI>().text = text;
     }
         public void Activate(GameObject player)
         {
@@ -52,14 +52,12 @@ namespace Scripts
 
         public async void SendMessage()
         {
-            await Task.Run(GetResponse);
-            text = "";
-            //Debug.Log();
+            _textInitialPosition = textUI.transform.position;
+            textUI.transform.DOMove(_textInitialPosition + 9f * Vector3.up, 1.2f).SetEase(Ease.InBack);
+            await Task.Delay(2000);
+            text = "Hello";
+            textUI.transform.DOMove(_textInitialPosition, 1.2f);
         }
-        async Task GetResponse()
-        {
-            answer = await ai.Request(text);
-            //Thread.Sleep(3000);
-        }
+        
     }
 }

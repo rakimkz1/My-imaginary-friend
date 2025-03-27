@@ -3,7 +3,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Diagnostics;
 
 namespace Scripts.AI_Qween
 {
@@ -68,7 +68,8 @@ namespace Scripts.AI_Qween
                 }
                 else
                 {
-                    return $"Request failed: {response.StatusCode}";
+                    return apiKey;
+                    //return $"Request failed: {response.StatusCode}";
                 }
             }
         }
