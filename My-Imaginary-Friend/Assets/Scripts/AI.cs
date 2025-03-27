@@ -41,7 +41,6 @@ namespace Scripts
             string jsonResponse = await AIRequest_Qween.SendRequestAsync(JsonUtility.ToJson(request));  // Send and recieve
 
             Debug.Log($"jsonResponse: {jsonResponse}");
-
             ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
             var aiResponse = response.choices[0].message;
             request.messages.Add(aiResponse);
@@ -76,8 +75,6 @@ namespace Scripts
         {
             Debug.Log("AIResponsed Invoked");
         }
-
-
     }
 
 

@@ -3,30 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrintingPressButtom : MonoBehaviour
+namespace Scripts
 {
-    public KeyCode key;
-
-    [SerializeField] PrintingMachine machine;
-    [SerializeField] private float _time;
-    [SerializeField] private float _endPosition;
-
-    private float _startPosition;
-
-    private void Start()
+    public class PrintingPressButtom : MonoBehaviour
     {
-        _startPosition = transform.position.y;
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(key) && machine.isActive)
+        public KeyCode key;
+
+        [SerializeField] PrintingMachine machine;
+        [SerializeField] private float _time;
+        [SerializeField] private float _endPosition;
+
+        private float _startPosition;
+
+        private void Start()
         {
-            transform.DOMoveY(_endPosition + transform.position.y, _time);
-            machine.InputSymbol();
+            _startPosition = transform.position.y;
         }
-        if (Input.GetKeyUp(key) && machine.isActive)
+        private void Update()
         {
-            transform.DOMoveY(_startPosition, _time);
+            if (Input.GetKeyDown(key) && machine.isActive)
+            {
+                transform.DOMoveY(_endPosition + transform.position.y, _time);
+                machine.InputSymbol();
+            }
+            if (Input.GetKeyUp(key) && machine.isActive)
+            {
+                transform.DOMoveY(_startPosition, _time);
+            }
         }
     }
 }
