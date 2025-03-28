@@ -24,7 +24,7 @@ namespace Scripts
         {
             _chr = GetComponent<CharacterController>();
         }
-        void Update()
+        public void BootsUpdate()
         {
             Movement();
             Gravity();
@@ -35,7 +35,7 @@ namespace Scripts
             float x = Input.GetAxis("Horizontal"), y = Input.GetAxis("Vertical");
 
             Vector3 diraction = (transform.right * x + transform.forward * y) * Speed * Time.deltaTime;
-            if(IsMovable) _chr.Move(diraction);
+            if (IsMovable) _chr.Move(diraction);
 
             if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && IsMovable)
             {
