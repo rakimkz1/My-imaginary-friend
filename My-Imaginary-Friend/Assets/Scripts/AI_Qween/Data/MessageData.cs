@@ -1,15 +1,15 @@
-
+п»ї
 
 namespace Scripts.AI_Qween
 {
 
 
     /// <summary>
-    /// Сообщение в диалоге с ИИ.
+    /// РЎРѕРѕР±С‰РµРЅРёРµ РІ РґРёР°Р»РѕРіРµ СЃ РР.
     /// </summary>
     /// <remarks>
-    /// <para><see cref="role"/> определяет, кто отправил сообщение: "user" (пользователь) или "assistant" (ИИ).</para>
-    /// <para><see cref="content"/> содержит текст сообщения.</para>
+    /// <para><see cref="role"/> РѕРїСЂРµРґРµР»СЏРµС‚, РєС‚Рѕ РѕС‚РїСЂР°РІРёР» СЃРѕРѕР±С‰РµРЅРёРµ: "user" (РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ) РёР»Рё "assistant" (РР).</para>
+    /// <para><see cref="content"/> СЃРѕРґРµСЂР¶РёС‚ С‚РµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ.</para>
     /// </remarks>
     [System.Serializable]
     public class Message

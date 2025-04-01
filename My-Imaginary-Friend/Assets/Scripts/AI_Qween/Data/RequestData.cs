@@ -1,22 +1,22 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 
 
 namespace Scripts.AI_Qween
 {
 
     /// <summary>
-    /// Форма для отправки запроса к ИИ.
+    /// Р¤РѕСЂРјР° РґР»СЏ РѕС‚РїСЂР°РІРєРё Р·Р°РїСЂРѕСЃР° Рє РР.
     /// </summary>
     [System.Serializable]
     public class RequestData
     {
         /// <summary>
-        /// Лучше не трогать
+        /// Р›СѓС‡С€Рµ РЅРµ С‚СЂРѕРіР°С‚СЊ
         /// </summary>
         public string model = "qwen2.5-72b-instruct";
 
         /// <summary>
-        /// Первый <see cref="messages"/ должен быть от "system". Последующие должны чередоваться: "user" и "assistant".>
+        /// РџРµСЂРІС‹Р№ <see cref="messages"/ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚ "system". РџРѕСЃР»РµРґСѓСЋС‰РёРµ РґРѕР»Р¶РЅС‹ С‡РµСЂРµРґРѕРІР°С‚СЊСЃСЏ: "user" Рё "assistant".>
         /// </summary>
         public List<Message> messages;
     }
