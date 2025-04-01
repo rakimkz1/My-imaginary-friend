@@ -1,9 +1,9 @@
-using System.Net.Http;
+п»їusing System.Net.Http;
 using System;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
+
 
 namespace Scripts.AI_Qween
 {
@@ -13,13 +13,13 @@ namespace Scripts.AI_Qween
 
 
         /// <summary>
-        /// Отправляет запрос на сервер с ИИ.
+        /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ.
         /// </summary>
-        /// <param name="jsonContent">JSON-строка, полученная путем сериализации объекта <see cref="RequestData"/>.</param>
-        /// <returns>JSON-строка, содержащая объект <see cref="ApiResponse"/>.</returns>
+        /// <param name="jsonContent">JSON-пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ <see cref="RequestData"/>.</param>
+        /// <returns>JSON-пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <see cref="ApiResponse"/>.</returns>
         public static async Task<string> SendRequestAsync(string jsonContent)
         {
-            // Что бы пользоваться апи ключем создайте environment variable по этой инструкцией https://www.alibabacloud.com/help/en/model-studio/getting-started/first-api-call-to-qwen?spm=a2c63.p38356.help-menu-2400256.d_0_1_0.66051d09jjzz97#e4cd73d544i3r
+            // пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ environment variable пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ https://www.alibabacloud.com/help/en/model-studio/getting-started/first-api-call-to-qwen?spm=a2c63.p38356.help-menu-2400256.d_0_1_0.66051d09jjzz97#e4cd73d544i3r
             string? apiKey = Environment.GetEnvironmentVariable("DASHSCOPE_API_KEY", EnvironmentVariableTarget.Machine);
 
             if (string.IsNullOrEmpty(apiKey))
@@ -68,8 +68,8 @@ namespace Scripts.AI_Qween
                 }
                 else
                 {
-                    return apiKey;
-                    //return $"Request failed: {response.StatusCode}";
+                    //return jsonContent;
+                    return $"Request failed: {response.StatusCode}";
                 }
             }
         }

@@ -42,16 +42,16 @@ namespace Scripts
 
             Debug.Log($"jsonResponse: {jsonResponse}");
 
-            ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
+            /*ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
             var aiResponse = response.choices[0].message;
             promptBuilder.HistoryAdd(aiResponse);
 
             string aIAnswer = AIJsonHandler.Invoke(aiResponse.content);
 
             requestSend = false;
-
+*/
             //Debug.Log($"�����: {aIAnswer}");
-            return aIAnswer;
+            return "ладно";
         }
 
         private void StartingPoint()     // ����������� ��������� ������� ��� ������. ������ ��������.

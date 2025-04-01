@@ -20,9 +20,8 @@ namespace Scripts
         [SerializeField] Vector3 cameraPosition;
         [SerializeField] Vector3 camRotation;
         [SerializeField] GameObject textUI;
-
+        [SerializeField] Animator _paperAnim;
         private string answer="";
-        private Vector3 _textInitialPosition;
        
         void Update()
         {
@@ -52,11 +51,12 @@ namespace Scripts
 
         public async void SendMessage()
         {
-            _textInitialPosition = textUI.transform.position;
-            textUI.transform.DOMove(_textInitialPosition + 9f * Vector3.up, 1.2f).SetEase(Ease.InBack);
-            await Task.Delay(2000);
-            text = "Hello";
-            textUI.transform.DOMove(_textInitialPosition, 1.2f);
+            _paperAnim.SetTrigger("FlyOut");
+
+            //text = await ai.Request(text);
+            await Task.Delay(3000);
+            _paperAnim.SetTrigger("FlyIn");
+            //text = "Hello";
         }
         
     }
