@@ -17,46 +17,54 @@ namespace Scripts
 
         private void Awake()
         {
-            request.messages = new List<Message>
-            {
-                new Message()
-                {
-                    role = "system",
-                    content = content
-                }
-            };
-
-            AIResponsed += AISub;
+            StartingPoint();            // �� ��� ���� ������ ������
+            AIResponsed += AISub;       // �� ��� ������� ����� ������
         }
 
-        public async Task<string> Request(string _request)
+        public async Task<string> Request(string _request)                          // ������� ������ ����� ������, �������� ������, ����� ��. ������ �������������� ������ � ������������� ������ ��� ����������� ������������� � ������
         {
-            if (requestSend == true || _request == null || _request.Length == 0)  // Check
+            if (requestSend == true || _request == null || _request.Length == 0)    // Check
                 return null;
 
             requestSend = true;
 
 
-            request.messages.Add(new Message() { role = "user", content = _request });
-            string jsonResponse = await AIRequest_Qween.SendRequestAsync(JsonUtility.ToJson(request));  // Send and recieve
+            promptBuilder.HistoryAdd(new Message() { role = "user", content = _request });
+            string jsonResponse = await AIRequest_Qween.SendRequestAsync(promptBuilder.ToString());  // Send and recieve
 
             Debug.Log($"jsonResponse: {jsonResponse}");
 
-            ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
+            /*ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
             var aiResponse = response.choices[0].message;
-            request.messages.Add(aiResponse);
+            promptBuilder.HistoryAdd(aiResponse);
 
-            FirstMeet first = JsonUtility.FromJson<FirstMeet>(aiResponse.content);
-            FirstCheck(first);
+            string aIAnswer = AIJsonHandler.Invoke(aiResponse.content);
 
             requestSend = false;
-
+            */
             //Debug.Log($"Ответ: {aiResponse.content}");
             return aiResponse.content;
         }
 
-        private void FirstCheck(FirstMeet first)
+        private void StartingPoint()     // ����������� ��������� ������� ��� ������. ������ ��������.
         {
+
+            AIJsonHandler += FirstMeetFromJson;
+        }
+
+
+
+        private string DefaultFromJson(string json)                         // ������������ ��������� json �� �� ��������� ��������
+        {
+            DefaultJson _default = JsonUtility.FromJson<DefaultJson>(json);
+
+            return _default.content;
+        }
+
+        private string FirstMeetFromJson(string json)                       // ������������ ��������� json �� �� ��� ������ ��������
+        {
+            FirstMeetJson first = JsonUtility.FromJson<FirstMeetJson>(json);
+
             if (first.player_name == "unknown")
             {
                 content += "\r\nОБЯЗАТЕЛЬНО заполни это поле **`player_name`**.";
@@ -68,25 +76,45 @@ namespace Scripts
 
             if (first.player_name != "unknown" && first.player_goal != "unknown")
             {
+                promptBuilder.player_name = first.player_name;
                 AIResponsed?.Invoke();
             }
+
+            AIJsonHandler -= FirstMeetFromJson;
+            AIJsonHandler += DefaultFromJson;
+            return first.content;
         }
 
         private void AISub()
         {
             Debug.Log("AIResponsed Invoked");
+
+            promptBuilder.currentJsonVariety = JsonResponceVariety.Default;
         }
+
 
 
     }
 
+    class DefaultJson
+    {
+        public string content;
+        public string attitude;
+        public string state;
+    }
 
-    class FirstMeet
+    class FirstMeetJson
     {
         public string content;
         public string attitude;
         public string state;
         public string player_name;
         public string player_goal;
+    }
+
+    public enum JsonResponceVariety
+    {
+        Default,
+        Meeting
     }
 }

@@ -68,6 +68,7 @@ namespace Scripts.AI_Qween
                 }
                 else
                 {
+                    //return jsonContent;
                     return $"Request failed: {response.StatusCode}";
                 }
             }
