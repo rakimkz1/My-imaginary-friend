@@ -21,10 +21,10 @@ public class SimpleFilter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F))
+        /*if (Input.GetKeyUp(KeyCode.F))
         {
             _useFilter = !_useFilter;
-        }
+        }*/
 
         OnUpdate();
     }

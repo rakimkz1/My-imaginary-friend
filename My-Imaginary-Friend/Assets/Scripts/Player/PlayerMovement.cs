@@ -18,13 +18,12 @@ namespace Scripts
 
         private CharacterController _chr;
         private Vector3 _gravityVelocity = Vector3.zero;
-
         private bool _isGrounded;
         void Start()
         {
             _chr = GetComponent<CharacterController>();
         }
-        public void BootsUpdate()
+        public void Update()
         {
             Movement();
             Gravity();

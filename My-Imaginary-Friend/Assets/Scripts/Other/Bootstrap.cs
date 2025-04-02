@@ -10,7 +10,7 @@ namespace Scripts
         [SerializeField] Lift _lift;
         private void Update()
         {
-            _playerMovement.BootsUpdate();
+            
             _lift.BootsUpdate();
         }
     }
