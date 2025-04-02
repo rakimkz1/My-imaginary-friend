@@ -1,4 +1,4 @@
-using System.Net.Http;
+п»їusing System.Net.Http;
 using System;
 using System.Net.Http.Headers;
 using System.Text;
@@ -13,13 +13,13 @@ namespace Scripts.AI_Qween
 
 
         /// <summary>
-        /// Отправляет запрос на сервер с ИИ.
+        /// РћС‚РїСЂР°РІР»СЏРµС‚ Р·Р°РїСЂРѕСЃ РЅР° СЃРµСЂРІРµСЂ СЃ РР.
         /// </summary>
-        /// <param name="jsonContent">JSON-строка, полученная путем сериализации объекта <see cref="RequestData"/>.</param>
-        /// <returns>JSON-строка, содержащая объект <see cref="ApiResponse"/>.</returns>
+        /// <param name="jsonContent">JSON-СЃС‚СЂРѕРєР°, РїРѕР»СѓС‡РµРЅРЅР°СЏ РїСѓС‚РµРј СЃРµСЂРёР°Р»РёР·Р°С†РёРё РѕР±СЉРµРєС‚Р° <see cref="RequestData"/>.</param>
+        /// <returns>JSON-СЃС‚СЂРѕРєР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РѕР±СЉРµРєС‚ <see cref="ApiResponse"/>.</returns>
         public static async Task<string> SendRequestAsync(string jsonContent)
         {
-            // Что бы пользоваться апи ключем создайте environment variable по этой инструкцией https://www.alibabacloud.com/help/en/model-studio/getting-started/first-api-call-to-qwen?spm=a2c63.p38356.help-menu-2400256.d_0_1_0.66051d09jjzz97#e4cd73d544i3r
+            // Р§С‚Рѕ Р±С‹ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ Р°РїРё РєР»СЋС‡РµРј СЃРѕР·РґР°Р№С‚Рµ environment variable РїРѕ СЌС‚РѕР№ РёРЅСЃС‚СЂСѓРєС†РёРµР№ https://www.alibabacloud.com/help/en/model-studio/getting-started/first-api-call-to-qwen?spm=a2c63.p38356.help-menu-2400256.d_0_1_0.66051d09jjzz97#e4cd73d544i3r
             string? apiKey = Environment.GetEnvironmentVariable("DASHSCOPE_API_KEY", EnvironmentVariableTarget.Machine);
 
             if (string.IsNullOrEmpty(apiKey))

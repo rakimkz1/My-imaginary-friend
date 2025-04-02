@@ -1,22 +1,22 @@
-
+п»ї
 
 namespace Scripts.AI_Qween
 {
     /// <summary>
-    /// Форма для получение запроса от ИИ.
+    /// Р¤РѕСЂРјР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёРµ Р·Р°РїСЂРѕСЃР° РѕС‚ РР.
     /// </summary>
     [System.Serializable]
     public class ApiResponse
     {
 
         /// <summary>
-        /// Варианты ответов. Обычно их только 1.
+        /// Р’Р°СЂРёР°РЅС‚С‹ РѕС‚РІРµС‚РѕРІ. РћР±С‹С‡РЅРѕ РёС… С‚РѕР»СЊРєРѕ 1.
         /// </summary>
         public Choice[] choices;
         public string @object;
 
         /// <summary>
-        /// хранит в себе сколько токенов было использовано.
+        /// С…СЂР°РЅРёС‚ РІ СЃРµР±Рµ СЃРєРѕР»СЊРєРѕ С‚РѕРєРµРЅРѕРІ Р±С‹Р»Рѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ.
         /// </summary>
         public Usage usage;
         public int created;
@@ -29,7 +29,7 @@ namespace Scripts.AI_Qween
     public class Choice
     {
         /// <summary>
-        /// Ответ ИИ который можно выводить на экран.
+        /// РћС‚РІРµС‚ РР РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РЅРѕ РІС‹РІРѕРґРёС‚СЊ РЅР° СЌРєСЂР°РЅ.
         /// </summary>
         public Message message;
         public string finish_reason;
@@ -41,12 +41,12 @@ namespace Scripts.AI_Qween
     public class Usage
     {
         /// <summary>
-        /// входные токены. Включает в себя память.
+        /// РІС…РѕРґРЅС‹Рµ С‚РѕРєРµРЅС‹. Р’РєР»СЋС‡Р°РµС‚ РІ СЃРµР±СЏ РїР°РјСЏС‚СЊ.
         /// </summary>
         public int prompt_tokens;
 
         /// <summary>
-        /// выходные токены.
+        /// РІС‹С…РѕРґРЅС‹Рµ С‚РѕРєРµРЅС‹.
         /// </summary>
         public int completion_tokens;
         public int total_tokens;

@@ -1,4 +1,4 @@
-using Scripts.AI_Qween;
+﻿using Scripts.AI_Qween;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,25 +11,25 @@ namespace Scripts
     {
         
 
-        public event Action AIResponsed;        // Èâåíò áóäåò ñðàáàòûâàòü êîãäà îò ÈÈ ïîëó÷àåì íóæíûå ðåñïîíñû èëè êîãäà èãðîê ñêàçàë òî ÷òî íóæíî.
-        public event Action ScriptEvent;        // Èâåíò áåäåò ñðàáàòûâàòü îò âíåøíèõ ñêðèïòîâ, íà êîòîðûå â ýòîì êëàññå íóæíî ïîäïèñûâàòüñÿ ÷òî áû ìåíÿòü ïðîìïò äëÿ íóæíûõ ðåñïîíñîâ
+        public event Action AIResponsed;        // Ивент будет срабатывать, когда от ИИ получаем нужные респонсы или когда игрок сказал то, что нужно.
+        public event Action ScriptEvent;        // Ивент будет срабатывать от внешних скриптов, на которые в этом классе нужно подписываться, чтобы менять промпт для нужных респонсов.
 
 
-        private bool requestSend = false;                                   // Äëÿ òîãî ÷òî áû æäàòü ïîêà âåðíåòñÿ îòâåò îò ÈÈ
-        private AIPromptBuilder promptBuilder = new AIPromptBuilder();      // Òóò õðàíèòñÿ âñå ÷òî ñâÿçàíî ñ ïðîìïòàìè äëÿ ÈÈ. Òàì æå ïðîèñõîäèò ñåðèàëèçàöèÿ â äæåéñîí
-        private Func<string, string> AIJsonHandler = null;                  // Îáðàáîò÷èê îòâåòà ÈÈ. Ïîëó÷àåìûé äæåéñîí êàæäûé ðàç ðàçíûé, ïî ýòîìó êàæäûé ðàç èñïîëüçóåì íóæíûé îáðàáîò÷èê
+        private bool requestSend = false;                                   // Для того чтобы ждать, пока вернётся ответ от ИИ
+        private AIPromptBuilder promptBuilder = new AIPromptBuilder();      // Тут хранится всё, что связано с промптами для ИИ. Там же происходит сериализация в JSON.
+        private Func<string, string> AIJsonHandler = null;                  // Обработчик ответа ИИ. Получаемый JSON каждый раз разный, поэтому каждый раз используем нужный обработчик.
 
 
-        
-        
+
+
 
         private void Awake()
         {
-            StartingPoint();            // òî ÷òî äàåò íà÷àëî ñþæåòó
-            AIResponsed += AISub;       // òî ÷òî äâèãàåò ñþæåò äàëüøå
+            StartingPoint();            // То, что даёт начало сюжету.
+            AIResponsed += AISub;       // То, что двигает сюжет дальше.
         }
 
-        public async Task<string> Request(string _request)                          // Âõîäíûå äàííûå ñëîâà èãðîêà, âûõîäíûå äàííûå, ñëîâà ÈÈ. Âíóòðè îáðàáàòûâàåòñÿ ïàìÿòü è íàñòðàèâàåòñÿ ïðîìïò äëÿ äàëüíåéøåãî èñïîëüçîâàíèé â ñþæåòå
+        public async Task<string> Request(string _request)                          // Входные данные — слова игрока, выходные данные — слова ИИ. Внутри обрабатывается память и настраивается промпт для дальнейшего использования в сюжете.
         {
             if (requestSend == true || _request == null || _request.Length == 0)    // Check
                 return null;
@@ -50,11 +50,11 @@ namespace Scripts
 
             requestSend = false;
 
-            //Debug.Log($"Îòâåò: {aIAnswer}");
+            //Debug.Log($"Ответ: {aIAnswer}");
             return aIAnswer;
         }
 
-        private void StartingPoint()     // Íàñòðàèâàåò ïàðàìåòðû ïðîìïòà äëÿ ñþæåòà. Ïåðâàÿ èòåðàöèÿ.
+        private void StartingPoint()     // Настраивает параметры промпта для сюжета. Первая итерация.
         {
             
             AIJsonHandler += FirstMeetFromJson;
@@ -62,24 +62,24 @@ namespace Scripts
 
         
 
-        private string DefaultFromJson(string json)                         // Îáðàáàòûâàåò ïðèøåäøèé json îò ÈÈ äåâîëòíûì ñïîñîáîì
+        private string DefaultFromJson(string json)                         // Обрабатывает пришедший JSON от ИИ дефолтным способом.
         {
             DefaultJson _default = JsonUtility.FromJson<DefaultJson>(json);
 
             return _default.content;
         }
 
-        private string FirstMeetFromJson(string json)                       // Îáðàáàòûâàåò ïðèøåäøèé json îò ÈÈ äëÿ ïåðâîé èòåðàöèé
+        private string FirstMeetFromJson(string json)                       // Обрабатывает пришедший JSON от ИИ для первой итерации.
         {
             FirstMeetJson first = JsonUtility.FromJson<FirstMeetJson>(json);
 
             if (first.player_name == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nÎÁßÇÀÒÅËÜÍÎ çàïîëíè ýòî ïîëå **`player_name`**.";
+                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_name**.";
             }
             if (first.player_goal == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nÎÁßÇÀÒÅËÜÍÎ çàïîëíè ýòî ïîëå **`player_goal`**.";
+                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_goal**.";
             }
 
             if (first.player_name != "unknown" && first.player_goal != "unknown")
