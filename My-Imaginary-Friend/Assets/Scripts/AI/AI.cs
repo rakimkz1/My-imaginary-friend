@@ -22,31 +22,31 @@ namespace Scripts
 
 
 
-
         private void Awake()
         {
             StartingPoint();            // То, что даёт начало сюжету.
             AIResponsed += AISub;       // То, что двигает сюжет дальше.
         }
 
-        public async Task<string> Request(string _request)                          // Входные данные — слова игрока, выходные данные — слова ИИ. Внутри обрабатывается память и настраивается промпт для дальнейшего использования в сюжете.
+        public async Task<string> Request(string _request)                              // Входные данные — слова игрока, выходные данные — слова ИИ. Внутри обрабатывается память и настраивается промпт для дальнейшего использования в сюжете.
         {
-            if (requestSend == true || _request == null || _request.Length == 0)    // Check
+            if (requestSend == true || _request == null || _request.Length == 0)        // Check
                 return null;
 
             requestSend = true;
 
+            string jsonRequest = promptBuilder.ToString(_request);                              // Get json for send
+            Debug.Log($"jsonRequest(server): {jsonRequest}");
 
-            promptBuilder.HistoryAdd(new Message() { role = "user", content = _request });
-            string jsonResponse = await AIRequest_Qween.SendRequestAsync(promptBuilder.ToString());  // Send and recieve
+            string jsonResponse = await AIRequest_Qween.SendRequestAsync(jsonRequest);  // Send and recieve
+            Debug.Log($"jsonResponse(server): {jsonResponse}");
 
-            Debug.Log($"jsonResponse: {jsonResponse}");
+            ApiResponse apiResponse = JsonUtility.FromJson<ApiResponse>(jsonResponse);
+            string mainResponceJson = apiResponse.choices[0].message.content;
 
-            ApiResponse response = JsonUtility.FromJson<ApiResponse>(jsonResponse);
-            var aiResponse = response.choices[0].message;
-            promptBuilder.HistoryAdd(aiResponse);
+            promptBuilder.HistoryAdd(_request, mainResponceJson);
 
-            string aIAnswer = AIJsonHandler.Invoke(aiResponse.content);
+            string aIAnswer = AIJsonHandler.Invoke(mainResponceJson);
 
             requestSend = false;
 
@@ -75,11 +75,11 @@ namespace Scripts
 
             if (first.player_name == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_name**.";
+                //promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_name**.";
             }
             if (first.player_goal == "unknown")
             {
-                promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_goal**.";
+                //promptBuilder.additionalInformations += "\r\nОБЯЗАТЕЛЬНО заполни это поле **player_goal**.";
             }
 
             if (first.player_name != "unknown" && first.player_goal != "unknown")
