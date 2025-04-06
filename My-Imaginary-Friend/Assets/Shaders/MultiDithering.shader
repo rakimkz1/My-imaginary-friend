@@ -65,7 +65,7 @@
 
                 returnCol = clamp(returnCol, 0.0, 0.88);
                 half3 realCol = tex2D(_MainTex, i.uv).rbg;
-                returnCol = realCol.r >= (returnCol.b + returnCol.g) * 0.5 ? half3(realCol.r, returnCol.bb) : returnCol;
+                returnCol = realCol.r * 0.8 > (returnCol.b + returnCol.g) * 0.5 ? half3(realCol.r * 2.0 , returnCol.bb * 0.4) : returnCol;
                 return float4(returnCol, 1.0);
             }
             ENDCG

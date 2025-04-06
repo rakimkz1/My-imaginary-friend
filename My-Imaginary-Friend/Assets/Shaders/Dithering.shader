@@ -58,7 +58,7 @@
 
                 float2 noiseUV = i.uv * _NoiseTex_TexelSize.xy * _MainTex_TexelSize.zw;
                 fixed3 noiseCol = tex2D(_NoiseTex, noiseUV);
-                float noiseLum = 1 - dot(noiseCol, _greyScale);
+                float noiseLum = dot(noiseCol, _greyScale);
 
                 float rampVal = mainLum < noiseLum ? noiseLum - mainLum - 0.15: 0.99;
                 returnCol += tex2D(_ColorRampTex, float2(rampVal, 0.5));
