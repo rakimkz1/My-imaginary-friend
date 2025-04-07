@@ -6,7 +6,7 @@ namespace Scripts.AI_Qween
 {
 
     [System.Serializable]
-    public class DefaultJsonResponce   // Дефолт не предназначен для проверок. Этот класс можно будет заменить только внешними проверками.
+    public class DefaultJsonResponce   
     {
         public string content;
         public string attitude;
@@ -18,7 +18,7 @@ namespace Scripts.AI_Qween
             return JsonUtility.ToJson(this);
         }
 
-        public virtual T FromJson<T>(string json) where T : DefaultJsonResponce
+        public static T FromJson<T>(string json) where T : DefaultJsonResponce
         {
             T responce = JsonUtility.FromJson<T>(json);
             return responce;

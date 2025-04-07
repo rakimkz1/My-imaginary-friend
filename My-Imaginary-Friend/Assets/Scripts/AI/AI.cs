@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
- 
+
 namespace Scripts
 {
     public class AI : MonoBehaviour
     {
-        
 
+
+        public AIPromptBuilder promptBuilder;      // Тут хранится всё, что связано с промптами для ИИ. Там же происходит сериализация в JSON.
         public event Action AIResponsed;        // Ивент будет срабатывать, когда от ИИ получаем нужные респонсы или когда игрок сказал то, что нужно.
         public event Action ScriptEvent;        // Ивент будет срабатывать от внешних скриптов, на которые в этом классе нужно подписываться, чтобы менять промпт для нужных респонсов.
 
 
         private bool requestSend = false;                                   // Для того чтобы ждать, пока вернётся ответ от ИИ
-        private AIPromptBuilder promptBuilder = new AIPromptBuilder();      // Тут хранится всё, что связано с промптами для ИИ. Там же происходит сериализация в JSON.
         private Func<string, string> AIJsonHandler = null;                  // Обработчик ответа ИИ. Получаемый JSON каждый раз разный, поэтому каждый раз используем нужный обработчик.
 
 
@@ -25,7 +25,7 @@ namespace Scripts
         private void Awake()
         {
             StartingPoint();            // То, что даёт начало сюжету.
-            AIResponsed += AISub;       // То, что двигает сюжет дальше.
+            AIResponsed += F_MeetExecute;       // То, что двигает сюжет дальше.
         }
 
         public async Task<string> Request(string _request)                              // Входные данные — слова игрока, выходные данные — слова ИИ. Внутри обрабатывается память и настраивается промпт для дальнейшего использования в сюжете.
@@ -38,15 +38,15 @@ namespace Scripts
             string jsonRequest = promptBuilder.ToString(_request);                              // Get json for send
             Debug.Log($"jsonRequest(server): {jsonRequest}");
 
-            string jsonResponse = await AIRequest_Qween.SendRequestAsync(jsonRequest);  // Send and recieve
+            string jsonResponse = await AIRequest_Qween.SendRequestAsync(jsonRequest);          // Send and recieve
             Debug.Log($"jsonResponse(server): {jsonResponse}");
 
             ApiResponse apiResponse = JsonUtility.FromJson<ApiResponse>(jsonResponse);
-            string mainResponceJson = apiResponse.choices[0].message.content;
 
+            string mainResponceJson = apiResponse.choices[0].message.content;                   // тут хранятся так же параметры состояния ИИ.
             promptBuilder.HistoryAdd(_request, mainResponceJson);
 
-            string aIAnswer = AIJsonHandler.Invoke(mainResponceJson);
+            string aIAnswer = AIJsonHandler.Invoke(mainResponceJson);                           // Тут хранится только слова ИИ
 
             requestSend = false;
 
@@ -56,11 +56,11 @@ namespace Scripts
 
         private void StartingPoint()     // Настраивает параметры промпта для сюжета. Первая итерация.
         {
-            
+
             AIJsonHandler += FirstMeetFromJson;
         }
 
-        
+
 
         private string DefaultFromJson(string json)                         // Обрабатывает пришедший JSON от ИИ дефолтным способом.
         {
@@ -71,7 +71,7 @@ namespace Scripts
 
         private string FirstMeetFromJson(string json)                       // Обрабатывает пришедший JSON от ИИ для первой итерации.
         {
-            FirstMeetJson first = JsonUtility.FromJson<FirstMeetJson>(json);
+            FirstMeetingJsonResponce first = DefaultJsonResponce.FromJson<FirstMeetingJsonResponce>(json);
 
             if (first.player_name == "unknown")
             {
@@ -86,18 +86,19 @@ namespace Scripts
             {
                 promptBuilder.player_name = first.player_name;
                 AIResponsed?.Invoke();
+
             }
 
-            AIJsonHandler -= FirstMeetFromJson;
-            AIJsonHandler += DefaultFromJson;
             return first.content;
         }
 
-        private void AISub()
+        private void F_MeetExecute()
         {
             Debug.Log("AIResponsed Invoked");
 
             promptBuilder.currentJsonVariety = JsonResponceVariety.Default;
+            AIJsonHandler -= FirstMeetFromJson;
+            AIJsonHandler += DefaultFromJson;
         }
 
 
@@ -121,7 +122,7 @@ namespace Scripts
     }
 
     public enum JsonResponceVariety
-    { 
+    {
         Default,
         Meeting
     }

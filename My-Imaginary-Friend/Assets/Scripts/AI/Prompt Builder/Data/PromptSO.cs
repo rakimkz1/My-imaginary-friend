@@ -19,5 +19,13 @@ namespace Scripts.AI_Qween
         {
             return JsonUtility.ToJson(this, true);
         }
+
+        public void CopyFrom(PromptSO prompt)
+        {
+            your_character = prompt.your_character;
+            dialogue_context = prompt.dialogue_context;
+            memory = prompt.memory;
+            how_to_responce = prompt.how_to_responce;
+        }
     }
 }

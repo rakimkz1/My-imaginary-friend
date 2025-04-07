@@ -1354,6 +1354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d1b68e6704baa46896ce9d3db56fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  promptBuilder: {fileID: 1420782036}
 --- !u!114 &1420782036
 MonoBehaviour:
   m_ObjectHideFlags: 0

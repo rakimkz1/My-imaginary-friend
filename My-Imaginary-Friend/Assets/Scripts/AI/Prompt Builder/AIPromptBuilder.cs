@@ -16,14 +16,17 @@ namespace Scripts.AI_Qween
         public JsonResponceVariety currentJsonVariety;
 
         private PromptSO prompt;
+        /*
         private Memory memory = new Memory()
         {
             long_term_memory = null,
             short_term_memory = null
-        };
+        };*/
+
 
         public void Awake()
         {
+            prompt = ScriptableObject.CreateInstance<PromptSO>();
             ChooseJsonVariety(JsonResponceVariety.Meeting);
         }
 
@@ -36,7 +39,7 @@ namespace Scripts.AI_Qween
                 my_reaction_and_responce = ai
             };
 
-            memory.short_term_memory.Add(dialogue);
+            prompt.memory.short_term_memory.Add(dialogue);
         }
 
         public void ChooseJsonVariety(JsonResponceVariety variety)
@@ -46,22 +49,21 @@ namespace Scripts.AI_Qween
             switch (variety)
             {
                 case JsonResponceVariety.Default:
-                    prompt = defaultPrompt;
+                    prompt.CopyFrom(defaultPrompt);
                     break;
 
                 case JsonResponceVariety.Meeting:
-                    prompt = f_meetingPrompt;
+                    prompt.CopyFrom(f_meetingPrompt);
                     break;
 
                 default:
-                    prompt = defaultPrompt;
+                    prompt.CopyFrom(defaultPrompt);
                     break;
             }
         }
 
         private string GetPrompt()
         {
-            prompt.memory = memory;
             return JsonUtility.ToJson(prompt);
         }
 
